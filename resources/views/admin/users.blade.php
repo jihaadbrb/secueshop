@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>SecureShop - Admin Panel</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/build/assets/app-B8PEFR1C.css">
+    <script src="/build/assets/app-BfpX1doZ.js" defer></script>
+
 </head>
 <body class="bg-gray-100">
     <nav class="bg-white shadow p-4 flex justify-between">
@@ -21,10 +23,8 @@
     <div class="container mx-auto p-8">
         <h1 class="text-3xl font-bold mb-6">Admin Panel — All Users</h1>
 
-        {{-- VULNERABLE: hardcoded API key visible in source --}}
-        <!-- API_KEY: sk-abc123supersecretkey987654 -->
-
-        <table class="w-full bg-white rounded shadow">
+        
+	table class="w-full bg-white rounded shadow">
             <thead class="bg-red-600 text-white">
                 <tr>
                     <th class="p-4 text-left">ID</th>

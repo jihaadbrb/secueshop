@@ -11,10 +11,10 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search', '');
-        
+
         if ($search) {
             // VULNERABLE: raw SQL query - SQL injection
-            $products = DB::select("SELECT * FROM products WHERE name LIKE '%$search%' OR description LIKE '%$search%'");
+            $products = DB::select("SELECT * FROM products WHERE name LIKE ? OR description LIKE ?", ["%$search%", "%$search%"]);
         } else {
             $products = DB::select("SELECT * FROM products");
         }
@@ -24,7 +24,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = DB::select("SELECT * FROM products WHERE id = $id");
+        $product = DB::select("SELECT * FROM products WHERE id = ?", [$id]);
         return view('products.show', compact('product'));
     }
-}
+} 

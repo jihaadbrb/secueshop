@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>SecureShop - Profile</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/build/assets/app-B8PEFR1C.css">
+    <script src="/build/assets/app-BfpX1doZ.js" defer></script>
+
 </head>
 <body class="bg-gray-100">
     <nav class="bg-white shadow p-4 flex justify-between">
