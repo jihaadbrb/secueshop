@@ -15,7 +15,7 @@ jobs:
       - name: Run Semgrep - code scanning
         run: |
           pip install semgrep
-          semgrep scan --config auto --error .
+          semgrep scan --config "p/php" --config "p/owasp-top-ten" --error .
       - name: Run Trivy - dependency scanning
         uses: aquasecurity/trivy-action@master
         with:
