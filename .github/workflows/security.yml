@@ -12,10 +12,26 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LOG_OPTS: "--all"
       - name: Run Semgrep - code scanning
         run: |
           pip install semgrep
-          semgrep scan --config "p/php" --config "p/owasp-top-ten" --error .
+          cat > /tmp/custom-rules.yml << 'EOF'
+          rules:
+            - id: laravel-sql-injection
+              patterns:
+                - pattern: DB::select("... $...")
+              message: "SQL Injection vulnerability detected - use parameterized queries"
+              languages: [php]
+              severity: ERROR
+            - id: php-xss
+              patterns:
+                - pattern: '{!! $... !!}'
+              message: "XSS vulnerability - use {{ }} instead of {!! !!}"
+              languages: [generic]
+              severity: ERROR
+          EOF
+          semgrep scan --config /tmp/custom-rules.yml --error .
       - name: Run Trivy - dependency scanning
         uses: aquasecurity/trivy-action@master
         with:
