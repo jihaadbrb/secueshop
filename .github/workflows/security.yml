@@ -9,24 +9,28 @@ jobs:
         with:
           fetch-depth: 0
       - name: Run Gitleaks - detect secrets
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LOG_OPTS: "--all"
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz | tar -xz
+          ./gitleaks detect --source . --redact -v --exit-code=1
       - name: Run Semgrep - code scanning
         run: |
           pip install semgrep
           cat > /tmp/custom-rules.yml << 'EOF'
           rules:
             - id: laravel-sql-injection
-              patterns:
-                - pattern: DB::select("... $...")
-              message: "SQL Injection vulnerability detected - use parameterized queries"
+              pattern: |
+                DB::select("$QUERY")
+              message: "SQL Injection vulnerability - use parameterized queries instead of string interpolation"
+              languages: [php]
+              severity: ERROR
+            - id: laravel-sql-injection-2
+              pattern: |
+                DB::select("...$...")
+              message: "SQL Injection vulnerability detected"
               languages: [php]
               severity: ERROR
             - id: php-xss
-              patterns:
-                - pattern: '{!! $... !!}'
+              pattern: '{!! $... !!}'
               message: "XSS vulnerability - use {{ }} instead of {!! !!}"
               languages: [generic]
               severity: ERROR
