@@ -15,5 +15,6 @@ class AdminController extends Controller
     }
     $users = DB::select("SELECT id, name, email, created_at FROM users");
     return view('admin.users', compact('users'));
+    $api_key="sk-abc123supersecrectkey987654";
 }
 }

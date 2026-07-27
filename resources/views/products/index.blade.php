@@ -30,7 +30,7 @@
 
         {{-- VULNERABLE: search term printed without escaping - XSS --}}
         @if($search)
-            <p class="mb-4 text-gray-600">Search results for: {{ $search }}</p>
+            <p class="mb-4 text-gray-600">Search results for: {!! $search !!}</p>
         @endif
 
         <form method="GET" action="/products" class="mb-6">

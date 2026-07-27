@@ -25,7 +25,7 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
 // VULNERABLE: no auth middleware - missing authentication
-Route::middleware('auth')->get('/api/users', function() {
+Route::get('/api/users', function() {
     return response()->json(\DB::select("SELECT id, name, email FROM users"));
 });
 
