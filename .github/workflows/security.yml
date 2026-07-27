@@ -19,7 +19,7 @@ jobs:
           rules:
             - id: laravel-sql-injection
               pattern: |
-                DB::select("$QUERY")
+                DB::select("...$...");
               message: "SQL Injection vulnerability - use parameterized queries"
               languages: [php]
               severity: ERROR
