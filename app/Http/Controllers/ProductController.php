@@ -14,7 +14,7 @@ class ProductController extends Controller
 
         if ($search) {
             // VULNERABLE: raw SQL query - SQL injection
-            $products = DB::select("SELECT * FROM products WHERE name LIKE '%$search%%' OR description LIKE '%$search%'");
+            $products = DB::select("SELECT * FROM products WHERE name LIKE '%$search%' OR description LIKE '%$search%'");
         } else {
             $products = DB::select("SELECT * FROM products");
         }
