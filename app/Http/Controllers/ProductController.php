@@ -9,18 +9,16 @@ class ProductController extends Controller
 {
     // VULNERABLE search - SQL injection + XSS
     public function index(Request $request)
-    {
-        $search = $request->get('search', '');
-
-        if ($search) {
-            // VULNERABLE: raw SQL query - SQL injection
-            $products = DB::select("SELECT * FROM products WHERE name LIKE '%$search%' OR description LIKE '%$search%'");
-        } else {
-            $products = DB::select("SELECT * FROM products");
-        }
-
-        return view('products.index', compact('products', 'search'));
+{
+    $search = $request->get('search', '');
+    if ($search) {
+        // VULNERABLE: raw SQL query - SQL injection
+        $products = DB::select("SELECT * FROM products WHERE name LIKE '%$search%' OR description LIKE '%$search%'");
+    } else {
+        $products = DB::select("SELECT * FROM products");
     }
+    return view('products.index', compact('products', 'search'));
+}
 
     public function show($id)
     {
