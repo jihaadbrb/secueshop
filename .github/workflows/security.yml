@@ -13,9 +13,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Semgrep - code scanning
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: auto
+        run: |
+          pip install semgrep
+          semgrep --config auto -error .
       - name: Run Trivy - dependency scanning
         uses: aquasecurity/trivy-action@master
         with:
