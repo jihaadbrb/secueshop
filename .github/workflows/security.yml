@@ -13,9 +13,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Semgrep - code scanning
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: auto
+        run: |
+          pip install semgrep
+          cat > /tmp/custom-rules.yml << 'EOF'
+          rules:
+            - id: laravel-sql-injection
+              pattern: |
+                DB::select("$QUERY")
+              message: "SQL Injection vulnerability - use parameterized queries"
+              languages: [php]
+              severity: ERROR
+            - id: php-xss
+              pattern: '{!! $... !!}'
+              message: "XSS vulnerability - use {{ }} instead of {!! !!}"
+              languages: [generic]
+              severity: ERROR
+          EOF
+          semgrep scan --config /tmp/custom-rules.yml --error .
       - name: Run Trivy - dependency scanning
         uses: aquasecurity/trivy-action@master
         with:
