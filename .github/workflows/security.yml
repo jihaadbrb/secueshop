@@ -1,8 +1,5 @@
 name: Security Pipeline
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
+on: [push, pull_request]
 jobs:
   security:
     runs-on: ubuntu-latest
